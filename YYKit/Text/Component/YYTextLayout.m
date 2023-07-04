@@ -2871,7 +2871,7 @@ static void YYTextDrawDecoration(YYTextLayout *layout, CGContextRef context, CGS
             
             CGFloat xHeight, underlinePosition, lineThickness;
             YYTextGetRunsMaxMetric(runs, &xHeight, &underlinePosition, &lineThickness);
-            
+            underlinePosition -= 4; //by chenheng, add underline offset with text.
             CGPoint underlineStart, strikethroughStart;
             CGFloat length;
             
