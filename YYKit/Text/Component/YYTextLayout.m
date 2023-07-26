@@ -2404,17 +2404,21 @@ static void YYTextDrawBorderRects(CGContextRef context, CGSize size, YYTextBorde
     }
     
     NSMutableArray *paths = [NSMutableArray new];
+    NSInteger index = 0;
     for (NSValue *value in rects) {
         CGRect rect = value.CGRectValue;
         if (isVertical) {
             rect = UIEdgeInsetsInsetRect(rect, UIEdgeInsetRotateVertical(border.insets));
         } else {
-            rect = UIEdgeInsetsInsetRect(rect, border.insets);
+            if (index == 0) {
+                rect = UIEdgeInsetsInsetRect(rect, border.insets);
+            }
         }
         rect = CGRectPixelRound(rect);
         UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:border.cornerRadius];
         [path closePath];
         [paths addObject:path];
+        index += 1;
     }
     
     if (border.fillColor) {
@@ -2450,17 +2454,21 @@ static void YYTextDrawBorderRects(CGContextRef context, CGSize size, YYTextBorde
             radiusDelta = 0;
         }
         CGContextSetLineJoin(context, border.lineJoin);
+        NSInteger index = 0;
         for (NSValue *value in rects) {
             CGRect rect = value.CGRectValue;
             if (isVertical) {
                 rect = UIEdgeInsetsInsetRect(rect, UIEdgeInsetRotateVertical(border.insets));
             } else {
-                rect = UIEdgeInsetsInsetRect(rect, border.insets);
+                if (index == 0) {
+                    rect = UIEdgeInsetsInsetRect(rect, border.insets);
+                }
             }
             rect = CGRectInset(rect, inset, inset);
             UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:border.cornerRadius + radiusDelta];
             [path closePath];
             CGContextAddPath(context, path.CGPath);
+            index += 1;
         }
         CGContextStrokePath(context);
         CGContextRestoreGState(context);
@@ -2469,9 +2477,13 @@ static void YYTextDrawBorderRects(CGContextRef context, CGSize size, YYTextBorde
         if ((border.lineStyle & 0xFF) == YYTextLineStyleDouble) {
             CGContextSaveGState(context);
             CGFloat inset = -border.strokeWidth * 2;
+            NSInteger index = 0;
             for (NSValue *value in rects) {
                 CGRect rect = value.CGRectValue;
-                rect = UIEdgeInsetsInsetRect(rect, border.insets);
+                if (index ==  0) {
+                    rect = UIEdgeInsetsInsetRect(rect, border.insets);
+                }
+                
                 rect = CGRectInset(rect, inset, inset);
                 UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:border.cornerRadius + 2 * border.strokeWidth];
                 [path closePath];
@@ -2481,6 +2493,7 @@ static void YYTextDrawBorderRects(CGContextRef context, CGSize size, YYTextBorde
                 CGContextAddRect(context, bounds);
                 CGContextAddPath(context, path.CGPath);
                 CGContextEOClip(context);
+                index += 1;
             }
             CGContextSetStrokeColorWithColor(context, border.strokeColor.CGColor);
             YYTextSetLinePatternInContext(border.lineStyle, border.strokeWidth, 0, context);
