@@ -115,7 +115,15 @@ static dispatch_queue_t YYAsyncLayerGetReleaseQueue() {
         if (task.didDisplay) task.didDisplay(self, YES);
         return;
     }
-    
+    CGSize size = self.bounds.size;
+    if (size.width < 1 || size.height < 1) {
+        CGImageRef image = (__bridge_retained CGImageRef)(self.contents);
+        self.contents = nil;
+        if (image) {
+            CFRelease(image);
+        }        
+        return;
+    }
     if (async) {
         if (task.willDisplay) task.willDisplay(self);
         YYSentinel *sentinel = _sentinel;
