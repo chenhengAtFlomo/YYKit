@@ -2411,7 +2411,12 @@ static void YYTextDrawBorderRects(CGContextRef context, CGSize size, YYTextBorde
             rect = UIEdgeInsetsInsetRect(rect, UIEdgeInsetRotateVertical(border.insets));
         } else {
             if (index == 0) {
-                rect = UIEdgeInsetsInsetRect(rect, border.insets);
+                if (border.heightLimit != 0) {
+                    rect.origin.y = rect.origin.y + (rect.size.height - border.heightLimit) / 2;
+                    rect.size.height = border.heightLimit;
+                } else {
+                    rect = UIEdgeInsetsInsetRect(rect, border.insets);
+                }
             }
         }
         rect = CGRectPixelRound(rect);
