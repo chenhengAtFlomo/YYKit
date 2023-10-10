@@ -3366,6 +3366,10 @@ static void YYTextDrawDebug(YYTextLayout *layout, CGContextRef context, CGSize s
             if (cancel && cancel()) return;
             YYTextDrawShadow(self, context, size, point, cancel);
         }
+        if (self.needDrawBorder && context) {
+            if (cancel && cancel()) return;
+            YYTextDrawBorder(self, context, size, point, YYTextBorderTypeNormal, cancel);
+        }
         if (self.needDrawUnderline && context) {
             if (cancel && cancel()) return;
             YYTextDrawDecoration(self, context, size, point, YYTextDecorationTypeUnderline, cancel);
@@ -3385,10 +3389,6 @@ static void YYTextDrawDebug(YYTextLayout *layout, CGContextRef context, CGSize s
         if (self.needDrawStrikethrough && context) {
             if (cancel && cancel()) return;
             YYTextDrawDecoration(self, context, size, point, YYTextDecorationTypeStrikethrough, cancel);
-        }
-        if (self.needDrawBorder && context) {
-            if (cancel && cancel()) return;
-            YYTextDrawBorder(self, context, size, point, YYTextBorderTypeNormal, cancel);
         }
         if (debug.needDrawDebug && context) {
             if (cancel && cancel()) return;
