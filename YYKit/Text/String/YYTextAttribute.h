@@ -257,6 +257,7 @@ typedef void(^YYTextAction)(UIView *containerView, NSAttributedString *text, NSR
 @property (nullable, nonatomic, strong) YYTextShadow *shadow; ///< border shadow
 @property (nullable, nonatomic, strong) UIColor *fillColor;   ///< inner fill color
 @property (nonatomic) CGFloat heightLimit;                   ///limit the height by chenheng
+@property (nonatomic) CGFloat minFilterWidth;                   ///limit the min width by chenheng
 @end
 
 

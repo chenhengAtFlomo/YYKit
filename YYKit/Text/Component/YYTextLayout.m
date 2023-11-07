@@ -2420,6 +2420,9 @@ static void YYTextDrawBorderRects(CGContextRef context, CGSize size, YYTextBorde
             }
         }
         rect = CGRectPixelRound(rect);
+        if (rect.size.width < border.minFilterWidth) {
+            continue;
+        }
         UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:border.cornerRadius];
         [path closePath];
         [paths addObject:path];
