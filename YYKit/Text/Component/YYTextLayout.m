@@ -2414,7 +2414,9 @@ static void YYTextDrawBorderRects(CGContextRef context, CGSize size, YYTextBorde
                 rect.origin.y = rect.origin.y + (rect.size.height - border.heightLimit) / 2;
                 rect.size.height = border.heightLimit;
             } else {
-                rect = UIEdgeInsetsInsetRect(rect, border.insets);
+                if (index == 0) {
+                    rect = UIEdgeInsetsInsetRect(rect, border.insets);
+                }
             }
         }
         rect = CGRectPixelRound(rect);
